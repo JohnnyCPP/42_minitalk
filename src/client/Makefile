@@ -17,20 +17,19 @@
 
 INCLUDES_PATH	= ./include/
 B_INCLUDES_PATH	= ${INCLUDES_PATH}bonus/
+LIB_PATH		= ../lib/
+LIBFT_PATH		= ${LIB_PATH}libft/
+LIBFT_INC_PATH	= ${LIBFT_PATH}include/
 OBJECTS_PATH	= ./object/
 BONUS_OBJ_PATH	= ${OBJECTS_PATH}bonus/
 SOURCES_PATH    = ./src/
 B_SOURCES_PATH	= ${SOURCES_PATH}bonus/
-LIB_PATH		= ${SOURCES_PATH}lib/
-LIBFT_PATH		= ${LIB_PATH}libft/
-LIBFT_INC_PATH	= ${LIBFT_PATH}include/
-CLIENT_PATH		= ${SOURCES_PATH}client/
 
 
 LIBFT_FILE		= libft.a
 LIBFT_NAME		= ${LIBFT_PATH}${LIBFT_FILE}
-CLIENT_NAME		= client
-NAME			= server
+NAME			= ../../client
+NO_DIR_NAME		= $(notdir ${NAME})
 DEBUG			= debug
 
 
@@ -63,6 +62,7 @@ MAKE_LIB		= make -sC
 
 ALL				= all
 DELETE			= delete_library
+DELETE_CLIENT	= delete_client
 CLEAN			= clean
 FCLEAN			= fclean
 RE				= re
@@ -81,14 +81,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 PHONY			= .PHONY
 STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE} ${BONUS} ${HELP}
 DEBUG_PHONY		= ${CC_SANITIZER} ${B_CC_SANITIZER} ${VALGRIND} ${GDB}
-CLIENT_PHONY	= ${CLIENT_DELETE} ${CLIENT_CLEAN} ${CLIENT_FCLEAN} ${CLIENT_RE}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
-
-
-MAKE_CLIENT		= ${MAKE_LIB} ${CLIENT_PATH}
-DELETE_CLIENT	= ${MAKE_CLIENT} delete_client
-CLEAN_CLIENT	= ${MAKE_CLIENT} ${CLEAN}
-BONUS_CLIENT	= ${MAKE_CLIENT} ${BONUS}
 
 
 MAKE_LIBFT		= ${MAKE_LIB} ${LIBFT_PATH}
@@ -140,23 +133,26 @@ ${OBJECTS_PATH}%.o: ${SOURCES_PATH}%.c
 	@${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
 
 
-${NAME}: ${LIBFT_NAME} ${CLIENT_NAME} ${OBJECT_FILES}
+${NAME}: ${LIBFT_NAME} ${OBJECT_FILES}
 	@${CC} ${CFLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
-	@echo "The program \"${NAME}\" has been compiled."
+	@echo "The program \"${NO_DIR_NAME}\" has been compiled."
 
 
 ${CLEAN}: ${LIB_CLEAN}
-	@${CLEAN_CLIENT}
 	@${DELETE_FILE} ${OBJECT_FILES}
 	@${DELETE_PATH} ${OBJECTS_PATH}
-	@echo "The objects of program \"${NAME}\" have been deleted."
+	@echo "The objects of program \"${NO_DIR_NAME}\" have been deleted."
 
 
 ${FCLEAN}: ${LIB_CLEAN} ${LIB_DELETE} ${CLEAN}
-	@${DELETE_CLIENT}
 	@${DELETE_FILE} ${LIBFT_NAME}
 	@${DELETE_FILE} ${NAME}
-	@echo "The program \"${NAME}\" has been deleted."
+	@echo "The program \"${NO_DIR_NAME}\" has been deleted."
+
+
+${DELETE_CLIENT}:
+	@${DELETE_FILE} ${NAME}
+	@echo "The program \"${NO_DIR_NAME}\" has been deleted."
 
 
 ${RE}: ${FCLEAN} ${ALL}
@@ -164,11 +160,10 @@ ${RE}: ${FCLEAN} ${ALL}
 
 ${BONUS}: ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@if [ ! -e ${NAME} ]; then \
-		${BONUS_CLIENT}; \
 		${CC} ${CFLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME}; \
-		echo "The program \"${NAME}\" has been compiled including bonus."; \
+		echo "The program \"${NO_DIR_NAME}\" has been compiled including bonus."; \
 	else \
-		echo "The program \"${NAME}\" already exists. Skipping compilation."; \
+		echo "The program \"${NO_DIR_NAME}\" already exists. Skipping compilation."; \
 	fi
 
 
@@ -202,10 +197,6 @@ ${GDB}: ${NAME}
 	@${GDB} ./${NAME}
 
 
-${CLIENT_NAME}:
-	@${MAKE_CLIENT}
-
-
 # library rules
 # #############
 
@@ -230,4 +221,4 @@ ${LIB_RE}:
 	@${RE_LIBFT}
 
 
-${PHONY}: ${STD_PHONY} ${DEBUG_PHONY} ${CLIENT_PHONY} ${LIB_PHONY}
+${PHONY}: ${STD_PHONY} ${DEBUG_PHONY} ${LIB_PHONY}

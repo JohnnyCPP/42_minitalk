@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minitalk_constants.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,11 +9,7 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minitalk.h"
+#ifndef MINITALK_CONSTANTS_H
+# define MINITALK_CONSTANTS_H
 
-int	main(const int argc, const char **argv)
-{
-	(void) argc; (void) argv;
-	ft_printf("The server is ready.\n");
-	return (EXIT_SUCCESS);
-}
+#endif

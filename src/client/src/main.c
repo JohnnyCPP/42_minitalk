@@ -14,6 +14,6 @@
 int	main(const int argc, const char **argv)
 {
 	(void) argc; (void) argv;
-	ft_printf("The server is ready.\n");
+	ft_printf("The client is ready.\n");
 	return (EXIT_SUCCESS);
 }

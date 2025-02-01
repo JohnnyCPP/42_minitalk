@@ -99,14 +99,18 @@ ${LIBRARY_NAME}: ${OBJECT_FILES}
 
 
 ${DELETE}:
-	@${DELETE_FILE} ${LIBRARY_NAME}
-	@echo "The library \"${LIBRARY_NAME}\" has been deleted."
+	@if [ -e ${LIBRARY_NAME} ]; then \
+		${DELETE_FILE} ${LIBRARY_NAME}; \
+		echo "The library \"${LIBRARY_NAME}\" has been deleted."; \
+	fi
 
 
 ${CLEAN}:
-	@${DELETE_FILE} ${OBJECT_FILES}
-	@${DELETE_PATH} ${OBJECTS_PATH}
-	@echo "The objects of library \"${LIBRARY_NAME}\" have been deleted."
+	@if [ -d ${OBJECTS_PATH} ]; then \
+		${DELETE_FILE} ${OBJECT_FILES}; \
+		${DELETE_PATH} ${OBJECTS_PATH}; \
+		echo "The objects of library \"${LIBRARY_NAME}\" have been deleted."; \
+	fi
 
 
 ${FCLEAN}: ${CLEAN} ${DELETE}
