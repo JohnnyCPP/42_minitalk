@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mt_client.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,17 +9,18 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mt_client.h"
+#ifndef MT_CLIENT_H
+# define MT_CLIENT_H
 
-int	main(const int argc, const char **argv)
-{
-	pid_t		pid;
-	const char	*message;
+# include "libft.h"
+//	includes "perror()"
+# include <stdio.h>
+//	includes "pid_t"
+# include <sys/types.h>
+//	includes "kill()", "SIGUSR1", "SIGUSR2"
+# include <signal.h>
+# include "mtc_constants.h"
+# include "mtc_structures.h"
+# include "mtc_prototypes.h"
 
-	mtc_validate_arguments(argc, argv);
-	pid = ft_atoi(argv[ARG_PID]);
-	message = argv[ARG_MESSAGE];
-	mtc_send_message(pid, message);
-	ft_printf("Message sent.\n");
-	return (EXIT_SUCCESS);
-}
+#endif

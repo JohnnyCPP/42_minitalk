@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mtc_send_bit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,15 +11,19 @@
 /* ************************************************************************** */
 #include "mt_client.h"
 
-int	main(const int argc, const char **argv)
+void	mtc_send_bit(pid_t pid, const int bit)
 {
-	pid_t		pid;
-	const char	*message;
+	int	transmission_status;
 
-	mtc_validate_arguments(argc, argv);
-	pid = ft_atoi(argv[ARG_PID]);
-	message = argv[ARG_MESSAGE];
-	mtc_send_message(pid, message);
-	ft_printf("Message sent.\n");
-	return (EXIT_SUCCESS);
+	transmission_status = 0;
+	if (bit == 0)
+		transmission_status = kill(pid, SIGUSR1);
+	else if (bit == 1)
+		transmission_status = kill(pid, SIGUSR2);
+	if (transmission_status == -1)
+	{
+		perror(ERROR_TRANSMISSION);
+		exit(EXIT_FAILURE);
+	}
+	usleep(100);
 }

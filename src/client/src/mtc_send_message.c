@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_prototypes.h                              :+:      :+:    :+:   */
+/*   mtc_send_message.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,7 +9,17 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MINITALK_PROTOTYPES_H
-# define MINITALK_PROTOTYPES_H
+#include "mt_client.h"
 
-#endif
+void	mtc_send_message(pid_t pid, const char *message)
+{
+	int	i;
+
+	i = 0;
+	while (message[i] != '\0')
+	{
+		mtc_send_char(pid, message[i]);
+		i ++;
+	}
+	mtc_send_char(pid, '\0');
+}

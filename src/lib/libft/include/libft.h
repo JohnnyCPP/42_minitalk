@@ -38,6 +38,12 @@
 # define BITS_IN_LONG 64
 # define BITS_IN_INT 32
 
+typedef enum s_bool
+{
+	false,
+	true
+}	t_bool;
+
 /**
  * @brief Structure representing a node in a linked list.
  *

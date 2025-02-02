@@ -9,7 +9,7 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minitalk.h"
+#include "mt_server.h"
 
 int	main(const int argc, const char **argv)
 {

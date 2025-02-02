@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   mt_server.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,12 +9,12 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MT_SERVER_H
+# define MT_SERVER_H
 
 # include "libft.h"
-# include "minitalk_constants.h"
-# include "minitalk_structures.h"
-# include "minitalk_prototypes.h"
+# include "mts_constants.h"
+# include "mts_structures.h"
+# include "mts_prototypes.h"
 
 #endif

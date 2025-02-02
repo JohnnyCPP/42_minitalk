@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mts_constants.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,17 +9,7 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mt_client.h"
+#ifndef MTS_CONSTANTS_H
+# define MTS_CONSTANTS_H
 
-int	main(const int argc, const char **argv)
-{
-	pid_t		pid;
-	const char	*message;
-
-	mtc_validate_arguments(argc, argv);
-	pid = ft_atoi(argv[ARG_PID]);
-	message = argv[ARG_MESSAGE];
-	mtc_send_message(pid, message);
-	ft_printf("Message sent.\n");
-	return (EXIT_SUCCESS);
-}
+#endif
