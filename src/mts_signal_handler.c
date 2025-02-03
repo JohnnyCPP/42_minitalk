@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mts_signal_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,19 +9,18 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#include "mt_server.h"
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
- */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
+void	mts_signal_handler(int signum, siginfo_t *info, void *context)
+{
+	int	bit;
 
-#endif
+	(void) context;
+	if (signum != SIGUSR1 && signum != SIGUSR2)
+		return ;
+	if (signum == SIGUSR1)
+		bit = 0;
+	else
+		bit = 1;
+	mts_process_bit(bit, info);
+}

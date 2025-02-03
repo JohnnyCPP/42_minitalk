@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mts_process_bit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,19 +9,30 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#include "mt_server.h"
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
- */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
+void	mts_process_bit(const int bit, siginfo_t *info)
+{
+	static pid_t	client_pid = 0;
+	static int		bit_count = 0;
+	static char		buffer;
 
-#endif
+	if (client_pid != info->si_pid)
+	{
+		buffer = 0;
+		bit_count = 0;
+		client_pid = info->si_pid;
+	}
+	buffer <<= 1;
+	buffer |= bit;
+	bit_count ++;
+	if (bit_count == BITS_IN_BYTE)
+	{
+		if (buffer == '\0')
+			ft_printf("\n");
+		else
+			ft_printf("%c", buffer);
+		buffer = 0;
+		bit_count = 0;
+	}
+}

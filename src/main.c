@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 #include "mt_server.h"
 
-int	main(const int argc, const char **argv)
+int	main(void)
 {
-	(void) argc; (void) argv;
-	ft_printf("The server is ready.\n");
+	mts_display_pid();
+	mts_set_handlers();
+	while (TRUE)
+		pause();
 	return (EXIT_SUCCESS);
 }
