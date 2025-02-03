@@ -21,7 +21,7 @@ void	mts_display_pid(void);
  * @brief Processes a bit that has been received from the client.
  *
  * @param bit The bit received.
- * @param info Provides additional information about a received signal.
+ * @param pid The pid of the caller process that created the given signal.
  *
  * This function stores a single bit in a static buffer. When the buffer 
  * contains enough bits, prints a character.
@@ -30,7 +30,7 @@ void	mts_display_pid(void);
  * "info" is used to check the sender PID. If the PID changes during 
  * transmissions, the processing resets, allowing further communication.
  */
-void	mts_process_bit(const int bit, siginfo_t *info);
+void	mts_process_bit(const int bit, const pid_t pid);
 
 /**
  * @brief Decodes a bit when a signal is received.
@@ -58,5 +58,26 @@ void	mts_signal_handler(int signum, siginfo_t *info, void *context);
  * "mts_signal_handler" function to run when these are received.
  */
 void	mts_set_handlers(void);
+
+/**
+ * @brief Initializes an empty queue with null values.
+ */
+void	mts_initialize_queue(void);
+
+/**
+ * @brief Enqueues a signal to process it later.
+ *
+ * @param bit The bit of the new signal.
+ * @param pid The pid of the caller process that created the new signal.
+ */
+void	mts_enqueue(int bit, pid_t pid);
+
+/**
+ * @brief Processes a signal from a queue.
+ *
+ * This function gets the top bit from the queue, runs "mts_process_bit()", 
+ * and frees the allocated memory from the processed signal.
+ */
+void	mts_dequeue(void);
 
 #endif

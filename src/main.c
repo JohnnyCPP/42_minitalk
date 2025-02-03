@@ -11,11 +11,19 @@
 /* ************************************************************************** */
 #include "mt_server.h"
 
+t_queue	g_queue;
+
 int	main(void)
 {
 	mts_display_pid();
+	mts_initialize_queue();
 	mts_set_handlers();
 	while (TRUE)
-		pause();
+	{
+		if (g_queue.head)
+			mts_dequeue();
+		else
+			pause();
+	}
 	return (EXIT_SUCCESS);
 }

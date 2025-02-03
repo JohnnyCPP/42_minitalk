@@ -15,8 +15,10 @@
 /**
  * @brief Application errors.
  */
-# define ERROR_EMPTYSET "An error occurred initializing an empty signal set."
-# define ERROR_SIGACTION "An error occurred associating an action to a signal."
+# define ERROR_EMPTYSET "An error occurred initializing an empty signal set"
+# define ERROR_ADDSET "An error occurred adding a signal set"
+# define ERROR_SIGACTION "An error occurred associating an action to a signal"
+# define ERROR_SIGMEM "An error occurred allocating memory to a signal"
 
 /**
  * @brief Used in an infinite loop to keep the server waiting for signals.

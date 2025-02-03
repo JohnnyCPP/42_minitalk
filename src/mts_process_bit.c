@@ -54,17 +54,17 @@ static	void	mts_process_lsb_first(const int bit, int *bcount, char *buff)
 	}
 }
 
-void	mts_process_bit(const int bit, siginfo_t *info)
+void	mts_process_bit(const int bit, const pid_t pid)
 {
 	static pid_t	client_pid = 0;
 	static int		bit_count = 0;
 	static char		buffer;
 
-	if (client_pid != info->si_pid)
+	if (client_pid != pid)
 	{
 		buffer = 0;
 		bit_count = 0;
-		client_pid = info->si_pid;
+		client_pid = pid;
 	}
 	if (TRANSMISSION_ENDIANESS == LSB_FIRST)
 		mts_process_lsb_first(bit, &bit_count, &buffer);

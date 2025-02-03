@@ -18,8 +18,8 @@
 INCLUDES_PATH	= ./include/
 B_INCLUDES_PATH	= ${INCLUDES_PATH}bonus/
 OBJECTS_PATH	= ./object/
-BONUS_OBJ_PATH	= ${OBJECTS_PATH}bonus/
 SOURCES_PATH    = ./src/
+QUEUE_SRC_PATH	= ${SOURCES_PATH}queue/
 B_SOURCES_PATH	= ${SOURCES_PATH}bonus/
 LIB_PATH		= ${SOURCES_PATH}lib/
 LIBFT_PATH		= ${LIB_PATH}libft/
@@ -98,7 +98,8 @@ FCLEAN_LIBFT	= ${MAKE_LIBFT} ${FCLEAN}
 RE_LIBFT		= ${MAKE_LIBFT} ${RE}
 
 
-SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c)
+QUEUE_SOURCES	= $(wildcard ${QUEUE_SRC_PATH}*.c)
+SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${QUEUE_SOURCES}
 BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c)
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text

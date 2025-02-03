@@ -25,5 +25,5 @@ void	mtc_send_bit(pid_t pid, const int bit)
 		perror(ERROR_TRANSMISSION);
 		exit(EXIT_FAILURE);
 	}
-	usleep(100);
+	usleep(MICROSECS_TRANSMISSION_DELAY);
 }

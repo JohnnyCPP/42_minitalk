@@ -13,7 +13,7 @@
 
 void	mts_signal_handler(int signum, siginfo_t *info, void *context)
 {
-	int	bit;
+	int			bit;
 
 	(void) context;
 	if (signum != SIGUSR1 && signum != SIGUSR2)
@@ -22,5 +22,5 @@ void	mts_signal_handler(int signum, siginfo_t *info, void *context)
 		bit = 0;
 	else
 		bit = 1;
-	mts_process_bit(bit, info);
+	mts_enqueue(bit, info->si_pid);
 }

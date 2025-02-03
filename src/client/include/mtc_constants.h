@@ -18,7 +18,7 @@
 # define ERROR_ARGC "Usage: ./client <server_PID> <message>"
 # define ERROR_PID_FORMAT "The PID must be a number."
 # define ERROR_PID_OFLOWS "The PID value exceeds integer limits."
-# define ERROR_TRANSMISSION "Error sending a signal to the server."
+# define ERROR_TRANSMISSION "Error sending a signal to the server"
 
 /**
  * @brief Amount of arguments expected on the client.
@@ -49,5 +49,13 @@
 # define LSB_FIRST 0
 # define MSB_FIRST 1
 # define TRANSMISSION_ENDIANESS MSB_FIRST
+
+/**
+ * @brief Delay added between bits sent to the server.
+ *
+ * This delay is configured in order to allow the server 
+ * enough time to queue the signals received.
+ */
+# define MICROSECS_TRANSMISSION_DELAY 100
 
 #endif

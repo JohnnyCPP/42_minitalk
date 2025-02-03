@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 #include "mt_server.h"
 
-static	void	mts_associate_actions(struct sigaction *s_sigaction)
+static	void	mts_associate_actions(struct sigaction *sigac)
 {
 	int	status_code;
 
-	status_code = sigaction(SIGUSR1, s_sigaction, NULL);
+	status_code = sigaction(SIGUSR1, sigac, NULL);
 	if (status_code == -1)
 	{
 		perror(ERROR_SIGACTION);
 		exit(EXIT_FAILURE);
 	}
-	status_code = sigaction(SIGUSR2, s_sigaction, NULL);
+	status_code = sigaction(SIGUSR2, sigac, NULL);
 	if (status_code == -1)
 	{
 		perror(ERROR_SIGACTION);
@@ -29,7 +29,7 @@ static	void	mts_associate_actions(struct sigaction *s_sigaction)
 	}
 }
 
-static	void	mts_initialize_empty_set(struct sigaction *s_sigaction)
+static	void	mts_initialize_signal_set(struct sigaction *s_sigaction)
 {
 	int	status_code;
 
@@ -37,6 +37,18 @@ static	void	mts_initialize_empty_set(struct sigaction *s_sigaction)
 	if (status_code == -1)
 	{
 		perror(ERROR_EMPTYSET);
+		exit(EXIT_FAILURE);
+	}
+	status_code = sigaddset(&s_sigaction->sa_mask, SIGUSR1);
+	if (status_code == -1)
+	{
+		perror(ERROR_ADDSET);
+		exit(EXIT_FAILURE);
+	}
+	status_code = sigaddset(&s_sigaction->sa_mask, SIGUSR2);
+	if (status_code == -1)
+	{
+		perror(ERROR_ADDSET);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -47,6 +59,6 @@ void	mts_set_handlers(void)
 
 	s_sigaction.sa_sigaction = mts_signal_handler;
 	s_sigaction.sa_flags = SA_SIGINFO;
-	mts_initialize_empty_set(&s_sigaction);
+	mts_initialize_signal_set(&s_sigaction);
 	mts_associate_actions(&s_sigaction);
 }
