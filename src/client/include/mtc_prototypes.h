@@ -25,13 +25,42 @@
  */
 void	mtc_validate_arguments(const int argc, const char **argv);
 
-// TODO: document this function
+/**
+ * @brief Sends a single bit to a given process.
+ *
+ * @param pid The process ID of the destination process.
+ * @param bit The bit to be sent.
+ *
+ * This function sends a "SIGUSR1" or a "SIGUSR2" signal, depending if 
+ * "bit" is 0 or 1, respectively.
+ *
+ * It also handles the case when an error occurs sending the signal: 
+ * displays an error message and stops execution.
+ */
 void	mtc_send_bit(pid_t pid, const int bit);
 
-// TODO: document this function
+/**
+ * @brief Iterates through bits of "c", sending each one to a given process.
+ *
+ * @param pid The process ID of the destination process.
+ * @param c The character to be sent.
+ *
+ * This function changes its behavior depending on "TRANSMISSION_ENDIANESS", 
+ * which determines the order in which the individual bits will be sent.
+ */
 void	mtc_send_char(pid_t pid, const char c);
 
-// TODO: document this function
+/**
+ * @brief Sends a message to a given process.
+ *
+ * @param pid The process ID of the destination process.
+ * @param message The message to be sent.
+ *
+ * This function iterates through characters of "message", sending 
+ * each one to the given process with "mtc_send_char()".
+ *
+ * At the end, sends the null-terminator character.
+ */
 void	mtc_send_message(pid_t pid, const char *message);
 
 #endif

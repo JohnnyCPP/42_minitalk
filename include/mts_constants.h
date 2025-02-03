@@ -28,4 +28,14 @@
  */
 # define BITS_IN_BYTE 8
 
+/**
+ * @brief Order in which bits of a char are decoded from the client.
+ *
+ * Set to 0 for least-significant-bit first.
+ * Set to 1 for most-significant-bit first.
+ */
+# define LSB_FIRST 0
+# define MSB_FIRST 1
+# define TRANSMISSION_ENDIANESS MSB_FIRST
+
 #endif

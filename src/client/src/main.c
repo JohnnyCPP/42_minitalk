@@ -20,6 +20,5 @@ int	main(const int argc, const char **argv)
 	pid = ft_atoi(argv[ARG_PID]);
 	message = argv[ARG_MESSAGE];
 	mtc_send_message(pid, message);
-	ft_printf("Message sent.\n");
 	return (EXIT_SUCCESS);
 }
