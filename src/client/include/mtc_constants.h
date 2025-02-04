@@ -48,13 +48,29 @@
  */
 # define LSB_FIRST 0
 # define MSB_FIRST 1
-# define TRANSMISSION_ENDIANESS MSB_FIRST
+# define TRANSMISSION_ENDIANESS LSB_FIRST
 
 /**
  * @brief Delay added between bits sent to the server.
  *
  * This delay is configured in order to allow the server 
  * enough time to queue the signals received.
+ *
+ * about minitalk requirements:
+ *
+ * - the server must display the string "fast enough"
+ * - the exact definition of "fast enough" is subjective, but 
+ *   1s for 100 characters is often used as a benchmark
+ * - with a delay of 100 microseconds per bit, the time to send
+ *   a single character of 8 bits is:
+ *
+ *   8b*100us=800us=0,8ms
+ *
+ * - for 100 characters:
+ *
+ *   100c*0,8ms=80ms=0,08s
+ *
+ * - the client takes 0,08s to display 100 characters.
  */
 # define MICROSECS_TRANSMISSION_DELAY 100
 
