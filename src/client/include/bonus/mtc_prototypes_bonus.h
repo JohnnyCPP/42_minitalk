@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mts_structures.h                                   :+:      :+:    :+:   */
+/*   mtc_prototypes_bonus.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,29 +9,14 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MTS_STRUCTURES_H
-# define MTS_STRUCTURES_H
+#ifndef MTC_PROTOTYPES_BONUS_H
+# define MTC_PROTOTYPES_BONUS_H
 
 /**
- * @brief Represents a signal to be dequeued.
+ * @brief Sets up a handler to check for server acknowledgement.
  *
- * This struct is used to store received signals in order to 
- * process them sequentially, without signal loss.
+ * The acknowledgement handler assigns 1 to "g_acknowledgement".
  */
-typedef struct s_signal
-{
-	int				bit;
-	pid_t			pid;
-	struct s_signal	*next;
-}				t_signal;
-
-/**
- * @brief Represents a queue of signals to be processed.
- */
-typedef struct s_queue
-{
-	t_signal	*head;
-	t_signal	*tail;
-}				t_queue;
+void	mtc_set_acknowledgement(void);
 
 #endif

@@ -20,6 +20,7 @@ B_INCLUDES_PATH	= ${INCLUDES_PATH}bonus/
 OBJECTS_PATH	= ./object/
 SOURCES_PATH    = ./src/
 QUEUE_SRC_PATH	= ${SOURCES_PATH}queue/
+STD_SRC_PATH	= ${SOURCES_PATH}standard/
 B_SOURCES_PATH	= ${SOURCES_PATH}bonus/
 LIB_PATH		= ${SOURCES_PATH}lib/
 LIBFT_PATH		= ${LIB_PATH}libft/
@@ -29,6 +30,7 @@ CLIENT_PATH		= ${SOURCES_PATH}client/
 
 LIBFT_FILE		= libft.a
 LIBFT_NAME		= ${LIBFT_PATH}${LIBFT_FILE}
+B_CLIENT_NAME	= client_bonus
 CLIENT_NAME		= client
 NAME			= server
 DEBUG			= debug
@@ -100,7 +102,8 @@ RE_LIBFT		= ${MAKE_LIBFT} ${RE}
 
 QUEUE_SOURCES	= $(wildcard ${QUEUE_SRC_PATH}*.c)
 SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${QUEUE_SOURCES}
-BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c)
+STD_SOURCES		= ${SOURCE_FILES} $(wildcard ${STD_SRC_PATH}*.c)
+BONUS_SOURCES	= ${SOURCE_FILES} $(wildcard ${B_SOURCES_PATH}*.c)
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -109,7 +112,7 @@ BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c)
 #              Make keeps the original text matched by the same 
 #              wildcard in the pattern
 # text: the list of strings on which the substitution will be performed
-OBJECT_FILES	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${SOURCE_FILES}}
+OBJECT_FILES	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${STD_SOURCES}}
 BONUS_OBJECTS	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${BONUS_SOURCES}}
 
 
@@ -173,26 +176,14 @@ ${BONUS}: ${LIBFT_NAME} ${BONUS_OBJECTS}
 	fi
 
 
-${HELP}:
-	@echo "Available targets:"
-	@echo "    all            - Build the project (default)"
-	@echo "    clean          - Remove object files"
-	@echo "    fclean         - Remove object files and the executable"
-	@echo "    re             - Rebuild the project"
-	@echo "    bonus          - Build the project with bonus features"
-	@echo "    sanitize       - Build with address sanitizer for debugging"
-	@echo "    sanitize_bonus - Build the bonus version with address sanitizer for debugging"
-	@echo "    valgrind       - Run the program with valgrind"
-	@echo "    gdb            - Run the program with gdb"
-
-
 ${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
+	@echo "C compiler's sanitizer has been added to debug memory issues."
 
 
 ${B_CC_SANITIZER}: ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME}
-	@echo "C compiler's sanitizer has been added to debug memory issues."
+	@echo "C compiler's sanitizer has been added, to the bonus, to debug memory issues."
 
 
 ${VALGRIND}: ${NAME}
@@ -205,6 +196,25 @@ ${GDB}: ${NAME}
 
 ${CLIENT_NAME}:
 	@${MAKE_CLIENT}
+
+
+${B_CLIENT_NAME}:
+	@${BONUS_CLIENT}
+
+
+${HELP}:
+	@echo "Available targets:"
+	@echo "    all            - Build the project (default)"
+	@echo "    clean          - Remove object files"
+	@echo "    fclean         - Remove object files and the executable"
+	@echo "    re             - Rebuild the project"
+	@echo "    bonus          - Build the project with bonus features"
+	@echo "    sanitize       - Build with address sanitizer for debugging"
+	@echo "    sanitize_bonus - Build the bonus version with address sanitizer for debugging"
+	@echo "    valgrind       - Run the program with valgrind"
+	@echo "    gdb            - Run the program with gdb"
+	@echo "    client         - Builds the client only"
+	@echo "    client_bonus   - Builds the client only, bonus version"
 
 
 # library rules

@@ -17,12 +17,12 @@
 
 INCLUDES_PATH	= ./include/
 B_INCLUDES_PATH	= ${INCLUDES_PATH}bonus/
+OBJECTS_PATH	= ./object/
+SOURCES_PATH    = ./src/
 LIB_PATH		= ../lib/
 LIBFT_PATH		= ${LIB_PATH}libft/
 LIBFT_INC_PATH	= ${LIBFT_PATH}include/
-OBJECTS_PATH	= ./object/
-BONUS_OBJ_PATH	= ${OBJECTS_PATH}bonus/
-SOURCES_PATH    = ./src/
+STD_SRC_PATH	= ${SOURCES_PATH}standard/
 B_SOURCES_PATH	= ${SOURCES_PATH}bonus/
 
 
@@ -92,7 +92,8 @@ RE_LIBFT		= ${MAKE_LIBFT} ${RE}
 
 
 SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c)
-BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c)
+STD_SOURCES		= ${SOURCE_FILES} $(wildcard ${STD_SRC_PATH}*.c)
+BONUS_SOURCES	= ${SOURCE_FILES} $(wildcard ${B_SOURCES_PATH}*.c)
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -101,7 +102,7 @@ BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c)
 #              Make keeps the original text matched by the same 
 #              wildcard in the pattern
 # text: the list of strings on which the substitution will be performed
-OBJECT_FILES	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${SOURCE_FILES}}
+OBJECT_FILES	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${STD_SOURCES}}
 BONUS_OBJECTS	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${BONUS_SOURCES}}
 
 
@@ -138,6 +139,10 @@ ${NAME}: ${LIBFT_NAME} ${OBJECT_FILES}
 	@echo "The program \"${NO_DIR_NAME}\" has been compiled."
 
 
+${NO_DIR_NAME}: ${LIBFT_NAME} ${OBJECT_FILES}
+	@make -s ${NAME}
+
+
 ${CLEAN}: ${LIB_CLEAN}
 	@${DELETE_FILE} ${OBJECT_FILES}
 	@${DELETE_PATH} ${OBJECTS_PATH}
@@ -167,6 +172,24 @@ ${BONUS}: ${LIBFT_NAME} ${BONUS_OBJECTS}
 	fi
 
 
+${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
+	@echo "C compiler's sanitizer has been added to debug memory issues."
+
+
+${B_CC_SANITIZER}: ${LIBFT_NAME} ${BONUS_OBJECTS}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME}
+	@echo "C compiler's sanitizer has been added, to the bonus, to debug memory issues."
+
+
+${VALGRIND}: ${NAME}
+	@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME}
+
+
+${GDB}: ${NAME}
+	@${GDB} ./${NAME}
+
+
 ${HELP}:
 	@echo "Available targets:"
 	@echo "    all            - Build the project (default)"
@@ -178,23 +201,6 @@ ${HELP}:
 	@echo "    sanitize_bonus - Build the bonus version with address sanitizer for debugging"
 	@echo "    valgrind       - Run the program with valgrind"
 	@echo "    gdb            - Run the program with gdb"
-
-
-${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
-	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
-
-
-${B_CC_SANITIZER}: ${LIBFT_NAME} ${BONUS_OBJECTS}
-	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME}
-	@echo "C compiler's sanitizer has been added to debug memory issues."
-
-
-${VALGRIND}: ${NAME}
-	@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME}
-
-
-${GDB}: ${NAME}
-	@${GDB} ./${NAME}
 
 
 # library rules

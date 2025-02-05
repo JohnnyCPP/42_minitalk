@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mts_structures.h                                   :+:      :+:    :+:   */
+/*   mtc_set_acknowledgement.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,29 +9,22 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MTS_STRUCTURES_H
-# define MTS_STRUCTURES_H
+#include "mt_client.h"
 
-/**
- * @brief Represents a signal to be dequeued.
- *
- * This struct is used to store received signals in order to 
- * process them sequentially, without signal loss.
- */
-typedef struct s_signal
+volatile sig_atomic_t	g_acknowledgement = 0;
+
+static	void	mtc_acknowledgement_handler(int signum)
 {
-	int				bit;
-	pid_t			pid;
-	struct s_signal	*next;
-}				t_signal;
+	(void) signum;
+	g_acknowledgement = 1;
+}
 
-/**
- * @brief Represents a queue of signals to be processed.
- */
-typedef struct s_queue
+void	mtc_set_acknowledgement(void)
 {
-	t_signal	*head;
-	t_signal	*tail;
-}				t_queue;
+	struct sigaction	s_sigaction;
 
-#endif
+	s_sigaction.sa_handler = mtc_acknowledgement_handler;
+	s_sigaction.sa_flags = SA_NOFLAGS;
+	sigemptyset(&s_sigaction.sa_mask);
+	sigaction(SIGUSR1, &s_sigaction, NULL);
+}

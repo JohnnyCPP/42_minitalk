@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mts_structures.h                                   :+:      :+:    :+:   */
+/*   mtc_send_bit_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,29 +9,23 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MTS_STRUCTURES_H
-# define MTS_STRUCTURES_H
+#include "mt_client.h"
 
-/**
- * @brief Represents a signal to be dequeued.
- *
- * This struct is used to store received signals in order to 
- * process them sequentially, without signal loss.
- */
-typedef struct s_signal
+void	mtc_send_bit(pid_t pid, const int bit)
 {
-	int				bit;
-	pid_t			pid;
-	struct s_signal	*next;
-}				t_signal;
+	int	transmission_status;
 
-/**
- * @brief Represents a queue of signals to be processed.
- */
-typedef struct s_queue
-{
-	t_signal	*head;
-	t_signal	*tail;
-}				t_queue;
-
-#endif
+	transmission_status = 0;
+	if (bit == 0)
+		transmission_status = kill(pid, SIGUSR1);
+	else if (bit == 1)
+		transmission_status = kill(pid, SIGUSR2);
+	if (transmission_status == -1)
+	{
+		perror(ERROR_TRANSMISSION);
+		exit(EXIT_FAILURE);
+	}
+	while (!g_acknowledgement)
+		pause();
+	g_acknowledgement = 0;
+}

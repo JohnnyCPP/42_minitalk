@@ -24,4 +24,6 @@
 # include "mts_structures.h"
 # include "mts_prototypes.h"
 
+extern t_queue	g_queue;
+
 #endif

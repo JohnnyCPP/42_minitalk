@@ -17,10 +17,13 @@
 # include <stdio.h>
 //	includes "pid_t"
 # include <sys/types.h>
-//	includes "kill()", "SIGUSR1", "SIGUSR2"
+//	includes "kill()", "SIGUSR1", "SIGUSR2", "sig_atomic_t"
 # include <signal.h>
 # include "mtc_constants.h"
 # include "mtc_structures.h"
 # include "mtc_prototypes.h"
+# include "mt_client_bonus.h"
+# include "mtc_constants_bonus.h"
+# include "mtc_prototypes_bonus.h"
 
 #endif

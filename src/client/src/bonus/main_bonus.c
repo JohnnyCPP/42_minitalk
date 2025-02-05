@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mts_structures.h                                   :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,29 +9,17 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MTS_STRUCTURES_H
-# define MTS_STRUCTURES_H
+#include "mt_client.h"
 
-/**
- * @brief Represents a signal to be dequeued.
- *
- * This struct is used to store received signals in order to 
- * process them sequentially, without signal loss.
- */
-typedef struct s_signal
+int	main(const int argc, const char **argv)
 {
-	int				bit;
-	pid_t			pid;
-	struct s_signal	*next;
-}				t_signal;
+	pid_t		pid;
+	const char	*message;
 
-/**
- * @brief Represents a queue of signals to be processed.
- */
-typedef struct s_queue
-{
-	t_signal	*head;
-	t_signal	*tail;
-}				t_queue;
-
-#endif
+	mtc_validate_arguments(argc, argv);
+	pid = ft_atoi(argv[ARG_PID]);
+	message = argv[ARG_MESSAGE];
+	mtc_set_acknowledgement();
+	mtc_send_message(pid, message);
+	return (EXIT_SUCCESS);
+}

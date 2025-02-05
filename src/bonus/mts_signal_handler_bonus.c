@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mts_structures.h                                   :+:      :+:    :+:   */
+/*   mts_signal_handler_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,29 +9,19 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MTS_STRUCTURES_H
-# define MTS_STRUCTURES_H
+#include "mt_server.h"
 
-/**
- * @brief Represents a signal to be dequeued.
- *
- * This struct is used to store received signals in order to 
- * process them sequentially, without signal loss.
- */
-typedef struct s_signal
+void	mts_signal_handler(int signum, siginfo_t *info, void *context)
 {
-	int				bit;
-	pid_t			pid;
-	struct s_signal	*next;
-}				t_signal;
+	int			bit;
 
-/**
- * @brief Represents a queue of signals to be processed.
- */
-typedef struct s_queue
-{
-	t_signal	*head;
-	t_signal	*tail;
-}				t_queue;
-
-#endif
+	(void) context;
+	if (signum != SIGUSR1 && signum != SIGUSR2)
+		return ;
+	if (signum == SIGUSR1)
+		bit = 0;
+	else
+		bit = 1;
+	mts_enqueue(bit, info->si_pid);
+	kill(info->si_pid, SIGUSR1);
+}
