@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mts_prototypes_bonus.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,24 +9,17 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#ifndef MTS_PROTOTYPES_BONUS_H
+# define MTS_PROTOTYPES_BONUS_H
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
+/**
+ * @brief Processes a bit part of a UTF-8 sequence.
+ *
+ * @param bit The bit to process.
+ * @param pid The pid from the sender process.
+ * @param buf The buffer containing the UTF-8 sequence.
+ * @param curr_b The current byte of the UTF-8 sequence.
  */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
-# include "mts_constants_bonus.h"
-# include "mts_structures_bonus.h"
-# include "mts_prototypes_bonus.h"
-
-extern t_queue	g_queue;
+void	mts_proc_utf_bit(int bit, pid_t pid, unsigned char *buf, char *curr_b);
 
 #endif

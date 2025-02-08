@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mtc_set_acknowledgement_bonus.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,24 +9,22 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#include "mt_client.h"
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
- */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
-# include "mts_constants_bonus.h"
-# include "mts_structures_bonus.h"
-# include "mts_prototypes_bonus.h"
+volatile sig_atomic_t	g_acknowledgement = 0;
 
-extern t_queue	g_queue;
+static	void	mtc_acknowledgement_handler(int signum)
+{
+	(void) signum;
+	g_acknowledgement = 1;
+}
 
-#endif
+void	mtc_set_acknowledgement(void)
+{
+	struct sigaction	s_sigaction;
+
+	s_sigaction.sa_handler = mtc_acknowledgement_handler;
+	s_sigaction.sa_flags = SA_NOFLAGS;
+	sigemptyset(&s_sigaction.sa_mask);
+	sigaction(SIGUSR1, &s_sigaction, NULL);
+}

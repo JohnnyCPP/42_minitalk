@@ -182,11 +182,11 @@ ${B_CC_SANITIZER}: ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@echo "C compiler's sanitizer has been added, to the bonus, to debug memory issues."
 
 
-${VALGRIND}: ${NAME}
+${VALGRIND}:
 	@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME}
 
 
-${GDB}: ${NAME}
+${GDB}:
 	@${GDB} ./${NAME}
 
 

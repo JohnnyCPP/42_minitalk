@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mtc_set_acknowledgement.c                          :+:      :+:    :+:   */
+/*   mts_structures_bonus.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,22 +9,18 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mt_client.h"
+#ifndef MTS_STRUCTURES_BONUS_H
+# define MTS_STRUCTURES_BONUS_H
 
-volatile sig_atomic_t	g_acknowledgement = 0;
-
-static	void	mtc_acknowledgement_handler(int signum)
+/**
+ * @brief Group of variables used when processing UTF-8 sequences.
+ */
+typedef struct s_utf8_data
 {
-	(void) signum;
-	g_acknowledgement = 1;
-}
+	unsigned char	*buffer;
+	char			*current_byte;
+	int				*byte_count;
+	int				*bit_count;
+}				t_utf8_data;
 
-void	mtc_set_acknowledgement(void)
-{
-	struct sigaction	s_sigaction;
-
-	s_sigaction.sa_handler = mtc_acknowledgement_handler;
-	s_sigaction.sa_flags = SA_NOFLAGS;
-	sigemptyset(&s_sigaction.sa_mask);
-	sigaction(SIGUSR1, &s_sigaction, NULL);
-}
+#endif

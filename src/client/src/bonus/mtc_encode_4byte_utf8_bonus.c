@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mtc_encode_4byte_utf8_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,24 +9,22 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#include "mt_client.h"
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
- */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
-# include "mts_constants_bonus.h"
-# include "mts_structures_bonus.h"
-# include "mts_prototypes_bonus.h"
+int	mtc_encode_4byte_utf8(char *buffer, unsigned int unicode)
+{
+	unsigned int	first_chunk;
+	unsigned int	second_chunk;
+	unsigned int	third_chunk;
+	unsigned int	fourth_chunk;
 
-extern t_queue	g_queue;
-
-#endif
+	first_chunk = unicode >> (BITS_SUBS_BYTE * 3);
+	second_chunk = (unicode >> (BITS_SUBS_BYTE * 2)) & CHUNK_BITMASK;
+	third_chunk = (unicode >> BITS_SUBS_BYTE) & CHUNK_BITMASK;
+	fourth_chunk = unicode & CHUNK_BITMASK;
+	buffer[UNICODE_BYTE_1] = (char)(BYTE_COUNT_MASK_4 | first_chunk);
+	buffer[UNICODE_BYTE_2] = (char)(SUBSEQUENT_BYTE_MASK | second_chunk);
+	buffer[UNICODE_BYTE_3] = (char)(SUBSEQUENT_BYTE_MASK | third_chunk);
+	buffer[UNICODE_BYTE_4] = (char)(SUBSEQUENT_BYTE_MASK | fourth_chunk);
+	return (UNICODE_BYTE_LENGTH_4);
+}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_server.h                                        :+:      :+:    :+:   */
+/*   mtc_encode_utf8_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,24 +9,23 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_SERVER_H
-# define MT_SERVER_H
+#include "mt_client.h"
 
-# include "libft.h"
-// includes "perror()"
-# include <stdio.h>
-/**	
- * includes signals, "struct sigaction", "sigaction()", 
- * "sigemptyset()", "kill()"
- */
-# include <signal.h>
-# include "mts_constants.h"
-# include "mts_structures.h"
-# include "mts_prototypes.h"
-# include "mts_constants_bonus.h"
-# include "mts_structures_bonus.h"
-# include "mts_prototypes_bonus.h"
+static	int	mtc_encode_1byte_utf8(char *buffer, unsigned int unicode)
+{
+	buffer[UNICODE_BYTE_1] = (char) unicode;
+	return (UNICODE_BYTE_LENGTH_1);
+}
 
-extern t_queue	g_queue;
-
-#endif
+int	mtc_encode_utf8(char *buffer, unsigned int unicode)
+{
+	if (unicode <= CODE_POINT_1)
+		return (mtc_encode_1byte_utf8(buffer, unicode));
+	else if (unicode <= CODE_POINT_2)
+		return (mtc_encode_2byte_utf8(buffer, unicode));
+	else if (unicode <= CODE_POINT_3)
+		return (mtc_encode_3byte_utf8(buffer, unicode));
+	else if (unicode <= CODE_POINT_4)
+		return (mtc_encode_4byte_utf8(buffer, unicode));
+	return (UTF_INVALID_INPUT);
+}

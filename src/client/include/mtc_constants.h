@@ -19,6 +19,7 @@
 # define ERROR_PID_FORMAT "The PID must be a number."
 # define ERROR_PID_OFLOWS "The PID value exceeds integer limits."
 # define ERROR_TRANSMISSION "Error sending a signal to the server"
+# define ERROR_UTF8 "An error occurred decoding utf8 sequence."
 
 /**
  * @brief Amount of arguments expected on the client.
@@ -48,7 +49,7 @@
  */
 # define LSB_FIRST 0
 # define MSB_FIRST 1
-# define TRANSMISSION_ENDIANESS LSB_FIRST
+# define TRANSMISSION_ENDIANESS MSB_FIRST
 
 /**
  * @brief Delay added between bits sent to the server.

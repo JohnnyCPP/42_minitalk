@@ -13,7 +13,7 @@
 
 void	mts_signal_handler(int signum, siginfo_t *info, void *context)
 {
-	int			bit;
+	int	bit;
 
 	(void) context;
 	if (signum != SIGUSR1 && signum != SIGUSR2)
