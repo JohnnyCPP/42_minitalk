@@ -13,13 +13,6 @@
 # define MTC_PROTOTYPES_BONUS_H
 
 /**
- * @brief Sets up a handler to check for server acknowledgement.
- *
- * The acknowledgement handler assigns 1 to "g_acknowledgement".
- */
-void			mtc_set_acknowledgement(void);
-
-/**
  * @brief Encodes a unicode character to its UTF-8 version of 4 bytes.
  *
  * @param buffer A pointer to a string to store the UTF-8 encoded character.

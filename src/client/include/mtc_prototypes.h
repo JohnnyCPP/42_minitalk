@@ -63,4 +63,11 @@ void	mtc_send_char(pid_t pid, const char c);
  */
 void	mtc_send_message(pid_t pid, const char *message);
 
+/**
+ * @brief Sets up a handler to check for server acknowledgement.
+ *
+ * The acknowledgement handler assigns 1 to "g_acknowledgement".
+ */
+void	mtc_set_acknowledgement(void);
+
 #endif

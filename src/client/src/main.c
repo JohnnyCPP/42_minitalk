@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_client_bonus.h                                  :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,9 +9,17 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MT_CLIENT_BONUS_H
-# define MT_CLIENT_BONUS_H
+#include "mt_client.h"
 
-extern volatile sig_atomic_t	g_acknowledgement;
+int	main(const int argc, const char **argv)
+{
+	pid_t		pid;
+	const char	*message;
 
-#endif
+	mtc_validate_arguments(argc, argv);
+	pid = ft_atoi(argv[ARG_PID]);
+	message = argv[ARG_MESSAGE];
+	mtc_set_acknowledgement();
+	mtc_send_message(pid, message);
+	return (EXIT_SUCCESS);
+}

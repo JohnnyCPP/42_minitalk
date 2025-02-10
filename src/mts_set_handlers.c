@@ -58,7 +58,7 @@ void	mts_set_handlers(void)
 	struct sigaction	s_sigaction;
 
 	s_sigaction.sa_sigaction = mts_signal_handler;
-	s_sigaction.sa_flags = SA_SIGINFO;
+	s_sigaction.sa_flags = SA_SIGINFO | SA_RESTART;
 	mts_initialize_signal_set(&s_sigaction);
 	mts_associate_actions(&s_sigaction);
 }

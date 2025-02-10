@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mtc_send_bit.c                                     :+:      :+:    :+:   */
+/*   mts_signal_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,21 +9,19 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mt_client.h"
+#include "mt_server.h"
 
-void	mtc_send_bit(pid_t pid, const int bit)
+void	mts_signal_handler(int signum, siginfo_t *info, void *context)
 {
-	int	transmission_status;
+	int	bit;
 
-	transmission_status = 0;
-	if (bit == 0)
-		transmission_status = kill(pid, SIGUSR1);
-	else if (bit == 1)
-		transmission_status = kill(pid, SIGUSR2);
-	if (transmission_status == -1)
-	{
-		perror(ERROR_TRANSMISSION);
-		exit(EXIT_FAILURE);
-	}
-	usleep(MICROSECS_TRANSMISSION_DELAY);
+	(void) context;
+	if (signum != SIGUSR1 && signum != SIGUSR2)
+		return ;
+	if (signum == SIGUSR1)
+		bit = 0;
+	else
+		bit = 1;
+	mts_enqueue(bit, info->si_pid);
+	kill(info->si_pid, SIGUSR1);
 }

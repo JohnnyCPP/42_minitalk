@@ -22,8 +22,9 @@
 # include "mtc_constants.h"
 # include "mtc_structures.h"
 # include "mtc_prototypes.h"
-# include "mt_client_bonus.h"
 # include "mtc_constants_bonus.h"
 # include "mtc_prototypes_bonus.h"
+
+extern volatile sig_atomic_t	g_acknowledgement;
 
 #endif

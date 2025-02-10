@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mtc_send_bit_bonus.c                               :+:      :+:    :+:   */
+/*   mtc_set_acknowledgement.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,20 @@
 /* ************************************************************************** */
 #include "mt_client.h"
 
-void	mtc_send_bit(pid_t pid, const int bit)
-{
-	int	transmission_status;
+volatile sig_atomic_t	g_acknowledgement = 0;
 
-	transmission_status = 0;
-	if (bit == 0)
-		transmission_status = kill(pid, SIGUSR1);
-	else if (bit == 1)
-		transmission_status = kill(pid, SIGUSR2);
-	if (transmission_status == -1)
-	{
-		perror(ERROR_TRANSMISSION);
-		exit(EXIT_FAILURE);
-	}
-	while (!g_acknowledgement)
-		pause();
-	g_acknowledgement = 0;
+static	void	mtc_acknowledgement_handler(int signum)
+{
+	(void) signum;
+	g_acknowledgement = 1;
+}
+
+void	mtc_set_acknowledgement(void)
+{
+	struct sigaction	s_sigaction;
+
+	s_sigaction.sa_handler = mtc_acknowledgement_handler;
+	s_sigaction.sa_flags = SA_NOFLAGS;
+	sigemptyset(&s_sigaction.sa_mask);
+	sigaction(SIGUSR1, &s_sigaction, NULL);
 }
