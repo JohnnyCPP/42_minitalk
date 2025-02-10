@@ -28,9 +28,11 @@ cd 42_minitalk
 make help
 make all
 ./server
-# the PID will be displayed, then, run the client
+# the PID will be displayed
+# then, run the client on a different terminal
 ./client <pid> <message>
 # to build the bonus version of both programs
+# note: bonus version includes unicode support
 make bonus
 ```
 
