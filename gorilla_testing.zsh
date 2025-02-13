@@ -2,11 +2,10 @@
 
 # this script simplifies testing the client-server transmission, 
 # sending a message to the server 'n' times
-#
-# the "pid" must be set every time, as the server pid changes
 
 n=20
-pid=1710314
+# the "pid" must be set every time, as the server pid changes
+pid=
 message=""
 times=10
 piece_to_concat="aaaaa"
